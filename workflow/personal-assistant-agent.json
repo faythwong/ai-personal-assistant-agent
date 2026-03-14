@@ -1,0 +1,764 @@
+{
+  "name": "AI Personal Assistant Agent (Sanitized)",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "REDACTED",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "position": [
+        96,
+        112
+      ],
+      "webhookId": "REDACTED",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {},
+      "id": "REDACTED",
+      "name": "Simple Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        448,
+        320
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "path": "REDACTED_MCP_PATH"
+      },
+      "id": "REDACTED",
+      "name": "MCP Server Trigger",
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "position": [
+        336,
+        512
+      ],
+      "webhookId": "REDACTED",
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "sseEndpoint": "REDACTED_MCP_SERVER_ENDPOINT",
+        "authentication": "headerAuth",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "REDACTED",
+      "name": "MCP Client",
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "position": [
+        800,
+        320
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REDACTED",
+          "name": "Header Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "REDACTED_CALENDAR_ID",
+          "mode": "id",
+          "__regex": "(^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*)"
+        },
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+        "additionalFields": {
+          "summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Summary', ``, 'string') }}"
+        }
+      },
+      "id": "REDACTED",
+      "name": "Create event",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "position": [
+        1136,
+        624
+      ],
+      "typeVersion": 1.3,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "REDACTED",
+          "name": "Google Calendar OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "calendar": {
+          "__rl": true,
+          "value": "REDACTED_CALENDAR_ID",
+          "mode": "list",
+          "cachedResultName": "REDACTED_CALENDAR_ID"
+        },
+        "eventId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_ID', ``, 'string') }}",
+        "updateFields": {}
+      },
+      "id": "REDACTED",
+      "name": "Update event",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "position": [
+        896,
+        960
+      ],
+      "typeVersion": 1.3,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "REDACTED",
+          "name": "Google Calendar OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', `Sign off as \"Your name, company name\"`, 'string') }}",
+        "options": {}
+      },
+      "id": "REDACTED",
+      "name": "Draft email",
+      "type": "n8n-nodes-base.gmailTool",
+      "position": [
+        576,
+        960
+      ],
+      "webhookId": "REDACTED",
+      "typeVersion": 2.1,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED",
+          "name": "Gmail OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "REDACTED",
+      "name": "Personal Assistant",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        368,
+        112
+      ],
+      "typeVersion": 1.9
+    },
+    {
+      "parameters": {
+        "content": "# Calendar nodes\n\nYou could order your agent to create a new event in your Google Calendar, find a specific event, get multiple events or update an event's details. \n\n**The true power of these nodes regarding Email, CRM and Calendar remains in combining multiple into one set of instructions**.\n\n## Examples:\n\n- Find the contact for Jhon for A. Corp and send him an email asking saying that you have scheduled the meeting for next Wednesday at 9AM. Draft an email to remind him of the details and the topic of discussion being the weekly update call and the main company bottlenecks.\n- Update the contact details for Jhon since he changed his email and company to B corp and john[at]bcorpfakeemail[dot]com and please update me about my upcoming meetings with him next month.\n- Send me a summary for all my meetings today. Draft one email for each different person that I'll meet with today, reminding them about today's meeting\n",
+        "height": 620,
+        "width": 560,
+        "color": 5
+      },
+      "id": "REDACTED",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1264,
+        544
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "# Email nodes\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nYour AI Agent will be able to search through your email inbox to find specific email content for you. Based on this records you can fetch information quickly and order to draft responses to review later.\n\n## Examples:\n\n- hey what were the last 5 emails sent to Jon from X corp? \n- Draft an email with these details to Jon sharing I can't make it today and propose a new time for 9AM tomorrow. ",
+        "height": 500,
+        "width": 460,
+        "color": 3
+      },
+      "id": "REDACTED",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        320,
+        880
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "# CRM nodes\n\nWith these node operations your \nAI agent will be able to do the following:\n\n- Add a new row with contact data\n- Find a row and its details in the table\n- Update a value or group of values\n\n\n## Examples:\n\n- Add a new contact data with Rick as first name\n his cell is +1 XXX XXX XXXX. \nI will tell you the email later on.\n- Can you tell me the details and email for Jon Doe?\n I want to send him an email reminder.\n- Update Rick's email to rick[at]someemail[dot]com from X corp. please.",
+        "height": 480,
+        "width": 660,
+        "color": 4
+      },
+      "id": "REDACTED",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -400,
+        544
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "# MCP Client\n",
+        "height": 480,
+        "width": 1168
+      },
+      "id": "REDACTED",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 620,
+        "width": 400,
+        "color": 5
+      },
+      "id": "REDACTED",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        864,
+        544
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "REDACTED_GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Contacts (Template)",
+          "cachedResultUrl": "REDACTED_GOOGLE_SHEETS_URL"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "REDACTED_GOOGLE_SHEETS_URL"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Name', ``, 'string') }}",
+            "Cell number": "={{ $fromAI('Cell_number', ``, 'string') }}",
+            "Email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Email', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Cell number",
+              "displayName": "Cell number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "REDACTED",
+      "name": "Add new row",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "position": [
+        -16,
+        624
+      ],
+      "typeVersion": 4.5,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REDACTED",
+          "name": "Google Sheets OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "REDACTED_GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Contacts (Template)",
+          "cachedResultUrl": "REDACTED_GOOGLE_SHEETS_URL"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "REDACTED_GOOGLE_SHEETS_URL"
+        },
+        "options": {}
+      },
+      "id": "REDACTED",
+      "name": "Find row",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "position": [
+        48,
+        752
+      ],
+      "typeVersion": 4.5,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REDACTED",
+          "name": "Google Sheets OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "REDACTED_GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Contacts (Template)",
+          "cachedResultUrl": "REDACTED_GOOGLE_SHEETS_URL"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "REDACTED_GOOGLE_SHEETS_URL"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Cell number",
+              "displayName": "Cell number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "REDACTED",
+      "name": "Update row",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "position": [
+        144,
+        864
+      ],
+      "typeVersion": 4.5,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REDACTED",
+          "name": "Google Sheets OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "returnAll": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Return_All', ``, 'boolean') }}",
+        "filters": {}
+      },
+      "id": "REDACTED",
+      "name": "Find emails",
+      "type": "n8n-nodes-base.gmailTool",
+      "position": [
+        448,
+        960
+      ],
+      "webhookId": "REDACTED",
+      "typeVersion": 2.1,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED",
+          "name": "Gmail OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "calendar": {
+          "__rl": true,
+          "value": "REDACTED_CALENDAR_ID",
+          "mode": "list",
+          "cachedResultName": "REDACTED_CALENDAR_ID"
+        },
+        "eventId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_ID', ``, 'string') }}",
+        "options": {}
+      },
+      "id": "REDACTED",
+      "name": "Find single event",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "position": [
+        1088,
+        784
+      ],
+      "typeVersion": 1.3,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "REDACTED",
+          "name": "Google Calendar OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "mode": "list",
+          "value": "REDACTED_CALENDAR_ID",
+          "cachedResultName": "REDACTED_CALENDAR_ID"
+        },
+        "limit": 10,
+        "options": {}
+      },
+      "id": "REDACTED",
+      "name": "Find multiple events",
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "position": [
+        992,
+        864
+      ],
+      "typeVersion": 1.3,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "REDACTED",
+          "name": "Google Calendar OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Instructions\n\n## This guide will walk you through the steps to fully configure your automation workflow using OpenAI, YouTube, and other APIs.\n\n\n## Step 1: Get Access to an MCP Server\n\n1. Copy the test/production URL from MCP Server Trigger node and paste it to MCP Client node URL field.\n\n## Step 2: Set Up OpenAI Credential\n\n1. Navigate to the API keys section on https://platform.openai.com/.\n2. Click \"Create new secret key\" and copy the key immediately.\n3. Paste it into the OpenAI Chat Model node's credentials.\n\n\n## Step 3: Create a Copy of the Google Sheets File\n\n1. Make a copy of the Google Sheets file associated with this workflow to store your data - REDACTED_GOOGLE_SHEETS_TEMPLATE_URL\n\n\n## Step 4: Set Up Google Sheets Credential\n\n1. In the Google Sheets node, create a new credential using your Google account.\n\n## Step 5: Set Up Gmail Credential\n\n1. In the Gmail node, create a new credential using your Google account.\n\n## Step 6: Configure Google Calendar Credentials\n\n1. In the **Google Calendar** node, click on the **Credentials** field.  \n2. Select **Create new credential**. A new window will open.  \n3. Log in with your Google account and grant permissions.  \n\n## Step 7: Customize The System For Your Use Case\n\n- **Business Productivity:** Connect to project management tools (e.g., Trello, Notion, Asana).  \n- **Personal Organization:** Automate reminders, grocery lists, or personal emails.  \n- **Team Collaboration:** Sync with shared calendars or Slack for team-wide updates.  \n- **Advanced Intelligence:** Let the assistant rank tasks by priority or urgency.  \n- **Hybrid Interfaces:** Use voice-to-text so you can literally “talk” to your assistant.  \n- **Knowledge Assistant:** Connect to internal docs or knowledge bases for quick answers.  \n\n### Now you're ready to run your workflow on a schedule or as needed!",
+        "height": 2128,
+        "width": 752,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1344,
+        64
+      ],
+      "typeVersion": 1,
+      "id": "REDACTED",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "## How it works?\nThis workflow acts like a digital assistant sitting between you and your apps.  \n\n1. **You Talk, the AI Listens**  \n   - A message is sent through your chat interface (webhook, chat app, etc.).  \n   - This acts as your voice command.  \n\n2. **AI Brain (Google Gemini)**  \n   - The request is passed to Google Gemini (e.g., Gemini 2.5 Pro).  \n   - Gemini interprets the intent: *create, find, or update*.  \n   - Memory of past 5 interactions provides context.  \n\n3. **Choosing the Right Tool**  \n   - The assistant maps your request to the correct action.  \n   - Example: “Schedule meeting” → Calendar tool, “Find John Doe” → CRM tool.  \n\n4. **MCP Toolbox**  \n   - MCP (Model Context Protocol) manages connected tools.  \n   - Makes CRM, Email, and Calendar services available to the assistant.  \n\n5. **Executing the Task**  \n   - The chosen node(s) perform the requested action:  \n     - CRM → find/add contact.  \n     - Calendar → create event.  \n     - Email → draft/send message.  \n",
+        "height": 792,
+        "width": 320,
+        "color": 4
+      },
+      "id": "REDACTED",
+      "name": "Sticky Note15",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1696,
+        592
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "\n## Tokens Required\n- Google Gemini\n- Google Sheets\n- Gmail\n- Google Calendar\n\n## Scalability\n- Add more apps (task managers, project tools, document search). \n- Send confirmations via Slack, Teams, or SMS.  ",
+        "height": 312,
+        "width": 320,
+        "color": 4
+      },
+      "id": "REDACTED",
+      "name": "Sticky Note17",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1696,
+        1392
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## What does it do?\n**Objective**: To create a natural language personal assistant that connects to your CRM, email, and calendar apps through n8n and MCP, powered by Google Gemini. The assistant can schedule meetings, find contacts, draft emails, and more - just by chatting with it.\n\n### Why important?\n- **Natural Interaction:** Lets you control apps with plain language instead of clicks and forms.  \n- **Productivity Boost:** Automates scheduling, emailing, and information lookup.  \n- **Smart Memory:** Keeps track of recent conversations, making interactions more natural.  \n- **Flexible Toolbox:** MCP allows easy integration with any app or service.  \n- **Scalable Assistant:** Can grow with more tools and use cases over time.  ",
+        "height": 536,
+        "width": 320,
+        "color": 4
+      },
+      "id": "REDACTED",
+      "name": "Sticky Note11",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1696,
+        48
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Contact us\nHave questions, found a bug, or have ideas to improve this workflow?\nWe're here to help and always open to feedback!\n\n💡 Suggest an improvement — Got a cool idea to make this workflow better? Let us know!\n\n🐞 Found a bug? — Tell us what went wrong so we can fix it fast.\n\n🛠️ Need help? — Whether you're stuck or unsure how to use a part of the workflow, just reach out.\n\n📩 Contact: contact@example.com\n\nWe typically respond within 72 hours on business days.\n\n",
+        "height": 452,
+        "width": 320
+      },
+      "id": "REDACTED",
+      "name": "Sticky Note12",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1696,
+        1712
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        320
+      ],
+      "id": "REDACTED",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "REDACTED",
+          "name": "OpenAI API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Find row": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "Personal Assistant",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add new row": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Draft email": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find emails": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create event": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update event": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Personal Assistant",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find single event": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find multiple events": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Personal Assistant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Personal Assistant",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "REDACTED",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "REDACTED"
+  },
+  "id": "REDACTED",
+  "tags": []
+}
